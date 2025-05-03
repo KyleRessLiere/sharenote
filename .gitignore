@@ -1,0 +1,54 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Output
+.next/
+out/
+dist/
+build/
+
+# Next.js build cache
+.next/
+.vercel/
+.cache/
+turbo/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# VSCode settings
+.vscode/
+
+# Logs
+logs
+*.log
+*.csv
+
+# IDE stuff
+.idea/
+*.iml
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional: ignore your local database or data
+/data/*
+!.gitkeep
+
+# Optional: Ignore local uploads or assets
+/public/uploads/*
+!.gitkeep
