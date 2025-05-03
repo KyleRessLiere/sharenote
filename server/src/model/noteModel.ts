@@ -27,7 +27,7 @@ export async function getAllNotesFromDB() {
   }
 }
 export async function fetchNoteById(noteId: number) {
-  console.log("fetching not by id");
+  console.log("fetching note by id " + noteId);
   try {
     const result = await pool.query("SELECT * FROM notes WHERE id = $1", [
       noteId,

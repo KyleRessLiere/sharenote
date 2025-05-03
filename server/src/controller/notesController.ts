@@ -28,7 +28,6 @@ export async function getNotes(req: Request, res: Response) {
 }
 export async function noteById(req: Request, res: Response) {
   const noteId = Number(req.params.id);
-  console.log("Gettting %d", noteById);
   if (!isValidNoteId(noteId)) {
     res.status(400).json({
       success: false,
@@ -38,7 +37,9 @@ export async function noteById(req: Request, res: Response) {
 
   try {
     const note = await fetchNoteById(noteId);
-    res.json({ success: true, note });
+    const noteOne = note[0];
+    console.log("NOTE ID FOUND " + noteId + " " + note[0].content);
+    res.json({ success: true, noteOne });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false });
