@@ -1,8 +1,9 @@
-// src/app/api/notes.ts
-const BASE_URL = "http://localhost:3001/api/notes";
+//nextpublic requre to use env props
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const NOTES_ENDPOINT = `${BASE_URL}notes`;
 
-export async function saveNote(content: string) {
-  const res = await fetch(`${BASE_URL}/save`, {
+export async function saveNote(id: number, content: string) {
+  const res = await fetch(`${NOTES_ENDPOINT}/save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +19,7 @@ export async function saveNote(content: string) {
 }
 
 export async function getAllNotes() {
-  const res = await fetch(`${BASE_URL}`);
+  const res = await fetch(`${NOTES_ENDPOINT}`);
   if (!res.ok) {
     throw new Error("Failed to fetch notes");
   }
@@ -27,7 +28,7 @@ export async function getAllNotes() {
 }
 
 export async function getNoteById(id: number) {
-  const res = await fetch(`${BASE_URL}/${id}`);
+  const res = await fetch(`${NOTES_ENDPOINT}/${id}`);
   if (!res.ok) {
     throw new Error("Failed to fetch note");
   }

@@ -11,8 +11,10 @@ export default function Editor() {
     content: "<p></p>",
   });
 
+  //react use states keep track of state for this component
   const [message, setMessage] = useState("");
   const [noteIdInput, setNoteIdInput] = useState("");
+  const [noteId, setNoteId] = useState<number | null>(null);
 
   const handleLoadNote = async () => {
     const id = parseInt(noteIdInput);
@@ -24,7 +26,9 @@ export default function Editor() {
     try {
       const response = await getNoteById(id);
       console.log(response);
+
       editor?.commands.setContent(response.noteOne.content);
+      setNoteId(id);
       setMessage(`✅ Loaded note ID ${id}`);
     } catch (error) {
       console.error("Fetch error:", error);
@@ -37,7 +41,7 @@ export default function Editor() {
     const content = editor.getHTML();
 
     try {
-      await saveNote(content);
+      await saveNote(noteId, content);
       setMessage(" Note saved");
     } catch (error) {
       console.error("Save error:", error);
