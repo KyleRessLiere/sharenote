@@ -1,32 +1,33 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 type Note = {
-  id: number
-  content: string
-  created_at: string
-}
+  id: number;
+  content: string;
+  created_at: string;
+};
 
 export default function NotesTable() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/notes")
-        const data = await res.json()
+        const res = await fetch(`/api/notes/1`);
+
+        const data = await res.json();
 
         if (res.ok && data.success) {
-          setNotes(data.notes)
+          setNotes(data.notes);
         }
       } catch (error) {
-        console.error(" Failed to fetch notes:", error)
+        console.error(" Failed to fetch notes:", error);
       }
-    }
+    };
 
-    fetchNotes()
-  }, [])
+    fetchNotes();
+  }, []);
 
   return (
     <div className="mt-8">
@@ -40,10 +41,13 @@ export default function NotesTable() {
           </tr>
         </thead>
         <tbody>
-          {notes.map(note => (
+          {notes.map((note) => (
             <tr key={note.id}>
               <td className="border p-2 text-center">{note.id}</td>
-              <td className="border p-2" dangerouslySetInnerHTML={{ __html: note.content }} />
+              <td
+                className="border p-2"
+                dangerouslySetInnerHTML={{ __html: note.content }}
+              />
               <td className="border p-2 text-center">
                 {new Date(note.created_at).toLocaleString()}
               </td>
@@ -52,5 +56,5 @@ export default function NotesTable() {
         </tbody>
       </table>
     </div>
-  )
+  );
 }
