@@ -1,5 +1,6 @@
 import EditorWrapper from "@/components/EditorWrapper";
 
-export default function Home() {
+export default function Note() {
   return <EditorWrapper />;
 }
+
