@@ -18,8 +18,9 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./src/app",         // 👈 REQUIRED for paths to work
     "paths": {
-      "@/*": ["./src/app/*"]
+      "@/*": ["*"]              // 👈 '@/lib/db' → src/lib/db
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

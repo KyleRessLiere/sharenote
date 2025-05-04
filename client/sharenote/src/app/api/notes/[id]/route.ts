@@ -1,26 +1,24 @@
+import { getNoteById } from "@/services/noteServices";
 import { NextRequest } from "next/server";
-import db from "@/lib/db"; // Your PostgreSQL Pool instance
-import { noteById } from "@/services/noteServices";
+
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const noteId = parseInt(params.id);
-
-  if (isNaN(noteId)) {
-    return new Response("Invalid note ID", { status: 400 });
+  const id = parseInt(params.id);
+  if (isNaN(id) || id <= 0) {
+    return new Response("Invalid ID", { status: 400 });
   }
 
   try {
-    const note = await noteById(noteId);
-
+    const note = await getNoteById(id);
     if (!note) {
       return new Response("Note not found", { status: 404 });
     }
 
-    return Response.json({ noteOne: note });
+    return Response.json(note);
   } catch (error) {
     console.error("DB error:", error);
-    return new Response("Internal server error", { status: 500 });
+    return new Response("Server error", { status: 500 });
   }
 }
