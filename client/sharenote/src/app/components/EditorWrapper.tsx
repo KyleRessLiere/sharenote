@@ -54,11 +54,14 @@ export default function EditorWrapper() {
     const content = editorInstance.getHTML();
     console.log("Saving content:", content);
     try {
-      await fetch(`/api/notes/save/${noteId}`, {
+      console.log("Saving note with ID:", noteId);
+      await fetch("/api/notes/save", {
         method: "POST",
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({ content, id: noteId }),
         headers: { "Content-Type": "application/json" },
       });
+      
+      
 
       setMessage("Note saved!");
     } catch {
