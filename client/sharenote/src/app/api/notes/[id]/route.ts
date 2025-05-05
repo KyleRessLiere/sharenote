@@ -5,7 +5,7 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const id = parseInt(params.id);
+  const id = await  parseInt(params.id);
   if (isNaN(id) || id <= 0) {
     return new Response("Invalid ID", { status: 400 });
   }

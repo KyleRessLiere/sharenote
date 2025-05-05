@@ -23,5 +23,10 @@ export default function Editor({ content, onReady }: Props) {
 
   if (!editor) return null;
 
-  return <EditorContent editor={editor} className="border p-4 min-h-[300px]" />;
+  return (
+    <EditorContent
+      editor={editor}
+      className="h-full w-full p-4 border rounded overflow-auto editor-container"
+    />
+  );
 }
