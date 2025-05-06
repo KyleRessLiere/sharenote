@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function GridPage() {
   const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -19,11 +20,16 @@ export default function GridPage() {
         setCards(data.notes);
       } catch {
         console.log("Failed to load notes:", accountId);
+      } finally {
+        setLoading(false);
       }
     };
 
     handleLoad();
   }, []);
+
+  // Don't render anything until loading completes
+  if (loading) return null;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-6 p-6">

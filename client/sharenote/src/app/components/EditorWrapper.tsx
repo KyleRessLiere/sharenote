@@ -7,7 +7,8 @@ import { useSearchParams } from "next/navigation";
 export default function EditorWrapper() {
   const [editorInstance, setEditorInstance] = useState<any>(null);
   const [message, setMessage] = useState("");
-  const [initialContent, setInitialContent] = useState("<p></p>");
+  const [initialContent, setInitialContent] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
   const noteId = searchParams.get("id");
 
@@ -19,23 +20,18 @@ export default function EditorWrapper() {
       }
 
       try {
-        console.log("Fetching note for ID:", noteId);
         const res = await fetch(`/api/notes/${noteId}`);
         if (!res.ok) throw new Error("Failed to fetch note");
         const data = await res.json();
 
-        console.log("Fetched note data:", data);
-
-        const content = data?.content;
-        if (!content) {
-          console.warn("No content ");
-        }
-
-        setInitialContent(content || "<p></p>");
+        const content = data?.content || "<p></p>";
+        setInitialContent(content);
         setMessage(`Loaded note ${noteId}`);
       } catch (err) {
         console.error("Fetch error:", err);
         setMessage("Failed to load note");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -43,8 +39,7 @@ export default function EditorWrapper() {
   }, [noteId]);
 
   useEffect(() => {
-    if (editorInstance && initialContent) {
-      console.log("Setting editor content:", initialContent);
+    if (editorInstance && initialContent !== null) {
       editorInstance.commands.setContent(initialContent);
     }
   }, [editorInstance, initialContent]);
@@ -52,22 +47,22 @@ export default function EditorWrapper() {
   const handleSave = async () => {
     if (!editorInstance) return;
     const content = editorInstance.getHTML();
-    console.log("Saving content:", content);
+
     try {
-      console.log("Saving note with ID:", noteId);
       await fetch("/api/notes/save", {
         method: "POST",
         body: JSON.stringify({ content, id: noteId }),
         headers: { "Content-Type": "application/json" },
       });
-      
-      
 
       setMessage("Note saved!");
     } catch {
       setMessage("Failed to save note");
     }
   };
+
+  // Don't render anything until loading finishes
+  if (isLoading) return null;
 
   return (
     <div className="p-6 space-y-4 h-[80vh]">

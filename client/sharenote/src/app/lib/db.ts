@@ -1,7 +1,10 @@
 import { Pool } from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const pool = new Pool({
-  connectionString: "postgresql://neondb_owner:npg_7lIXo6JgWrKn@ep-dry-night-a4eeqi1r-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require",
+  connectionString: process.env.DATABASE_URL,
 });
 
 export default pool;
